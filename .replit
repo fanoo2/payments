@@ -12,3 +12,23 @@ channel = "stable-24_11"
 run = ["node", "index.js"]
 deploymentTarget = "autoscale"
 ignorePorts = false
+
+[workflows]
+runButton = "Build and Run SDK"
+
+[[workflows.workflow]]
+name = "Build and Run SDK"
+author = 9088213
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd payments/src/sdk && npm install"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd payments/src/sdk && npm run build"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "node index.js"
