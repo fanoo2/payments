@@ -1,10 +1,12 @@
 
 const express = require('express');
+const bodyParser = require('body-parser');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Middleware
-app.use(express.json());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // In-memory storage for demo purposes
 const sessions = new Map();
