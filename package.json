@@ -1,6 +1,6 @@
 {
   "name": "fanno-payments-workspace",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Fanno Payments API workspace",
   "main": "index.js",
   "scripts": {
