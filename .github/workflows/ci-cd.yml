@@ -1,9 +1,9 @@
+
 name: CI/CD
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
 
 jobs:
   build-and-test:
@@ -15,10 +15,15 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build (if any)
+      - name: Build SDK
         run: npm run build
 
-      - name: Run E2E Smoke Test
+      - name: Start payments server & wait
+        # Start the server in the background and wait until it's ready
         run: |
-          npm install node-fetch@2
-          node scripts/e2e-test.js
+          npx concurrently --kill-others \
+            "npm run dev" \
+            "npx wait-on http://localhost:5000/health"
+
+      - name: Run E2E Smoke Test
+        run: node scripts/e2e-test.js
