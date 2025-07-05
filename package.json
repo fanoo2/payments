@@ -6,7 +6,9 @@
   "scripts": {
     "build": "cd payments/src/sdk && npm install && npm run build",
     "start": "cd payments/src/sdk && node dist/index.js",
-    "dev": "cd payments/src/sdk && npm run build && node dist/index.js"
+    "dev": "cd payments/src/sdk && npm run build && node dist/index.js",
+    "serve": "node payments/index.js",
+    "dev:service": "npm run build && npm run serve"
   },
   "dependencies": {
     "node-fetch": "^2.7.0"
