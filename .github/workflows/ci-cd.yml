@@ -18,11 +18,11 @@ jobs:
       - name: Build SDK
         run: npm run build
 
-      - name: Start payments service & wait
-        run: |
-          npx concurrently --kill-others \
-            "npm run serve" \
-            "npx wait-on http://localhost:5000/health"
+      - name: Start payments service in background
+        run: npm run serve &
+
+      - name: Wait for service to be ready
+        run: npx wait-on http://localhost:5000/health
 
       - name: Run E2E Smoke Test
         run: node scripts/e2e-test.js
