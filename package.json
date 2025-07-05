@@ -1,4 +1,3 @@
-
 {
   "name": "fanno-payments-workspace",
   "version": "1.0.0",
@@ -9,6 +8,7 @@
     "start": "cd payments/src/sdk && node dist/index.js",
     "dev": "cd payments/src/sdk && npm run build && node dist/index.js"
   },
-  "dependencies": {},
-  "devDependencies": {}
+  "dependencies": {
+    "node-fetch": "^2.7.0"
+  }
 }
