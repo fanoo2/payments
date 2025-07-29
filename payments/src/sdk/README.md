@@ -1,46 +1,93 @@
-## @fanno/payments-api-client@1.0.0
 
-This generator creates TypeScript/JavaScript client that utilizes [Fetch API](https://fetch.spec.whatwg.org/). The generated Node module can be used in the following environments:
+# @fanno/payments-sdk
 
-Environment
-* Node.js
-* Webpack
-* Browserify
+TypeScript SDK for Fanno Payments API
 
-Language level
-* ES5 - you must have a Promises/A+ library installed
-* ES6
+## Installation
 
-Module system
-* CommonJS
-* ES6 module system
-
-It can be used in both TypeScript and JavaScript. In TypeScript, the definition will be automatically resolved via `package.json`. ([Reference](https://www.typescriptlang.org/docs/handbook/declaration-files/consumption.html))
-
-### Building
-
-To build and compile the typescript sources to javascript use:
+```bash
+npm install @fanno/payments-sdk
 ```
+
+## Usage
+
+### Creating a Payments Client
+
+```typescript
+import { createPaymentsClient } from '@fanno/payments-sdk';
+
+const client = createPaymentsClient({
+  apiKey: 'your-api-key',
+  baseUrl: 'https://your-api-endpoint.com' // optional, defaults to localhost:5000
+});
+```
+
+### Creating a Checkout Session
+
+```typescript
+const session = await client.createCheckoutSession({
+  amount: 1000, // Amount in cents
+  currency: 'usd',
+  customer_email: 'customer@example.com',
+  success_url: 'https://yourapp.com/success',
+  cancel_url: 'https://yourapp.com/cancel'
+});
+
+console.log('Session ID:', session.sessionId);
+```
+
+### Handling Webhooks
+
+```typescript
+// In your webhook endpoint
+app.post('/webhook', (req, res) => {
+  try {
+    const event = client.handleWebhook(req.body);
+    
+    switch (event.type) {
+      case 'checkout.session.completed':
+        console.log('Payment completed:', event.data.object.id);
+        break;
+      default:
+        console.log('Unhandled event type:', event.type);
+    }
+    
+    res.status(200).send('OK');
+  } catch (error) {
+    console.error('Webhook error:', error);
+    res.status(400).send('Bad Request');
+  }
+});
+```
+
+## Building
+
+To build the TypeScript sources:
+
+```bash
 npm install
 npm run build
 ```
 
-### Publishing
+## API Reference
 
-First build the package then run `npm publish`
+### SessionRequest
 
-### Consuming
+- `amount` (number): Payment amount in cents
+- `currency` (string): 3-letter currency code (e.g., 'usd')
+- `customer_email` (string, optional): Customer's email address
+- `success_url` (string, optional): URL to redirect after successful payment
+- `cancel_url` (string, optional): URL to redirect after cancelled payment
+- `metadata` (object, optional): Additional metadata
 
-navigate to the folder of your consuming project and run one of the following commands.
+### SessionResponse
 
-_published:_
+- `sessionId` (string): Unique session identifier
+- `url` (string, optional): Checkout URL
+- `status` (string, optional): Session status
 
-```
-npm install @fanno/payments-api-client@1.0.0 --save
-```
+### WebhookEvent
 
-_unPublished (not recommended):_
-
-```
-npm install PATH_TO_GENERATED_PACKAGE --save
-```
+- `id` (string): Event identifier
+- `type` (string): Event type
+- `data` (object): Event data payload
