@@ -1,0 +1,17 @@
+apiVersion: v2
+name: fanno-payments
+description: A Helm chart for Fanno Payments Service
+type: application
+version: 1.0.0
+appVersion: "1.0.3"
+keywords:
+  - payments
+  - api
+  - microservice
+  - fanno
+home: https://github.com/fanoo2/payments
+sources:
+  - https://github.com/fanoo2/payments
+maintainers:
+  - name: Fanno Team
+    email: team@fanno.com

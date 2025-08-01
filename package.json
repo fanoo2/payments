@@ -8,7 +8,12 @@
     "start": "cd payments/src/sdk && node dist/index.js",
     "dev": "cd payments/src/sdk && npm run build && node dist/index.js",
     "serve": "node payments/index.js",
-    "dev:service": "npm run build && npm run serve"
+    "dev:service": "npm run build && npm run serve",
+    "release": "standard-version",
+    "release:minor": "standard-version --release-as minor",
+    "release:major": "standard-version --release-as major",
+    "version": "npm run build && git add .",
+    "postversion": "git push --follow-tags origin main"
   },
   "dependencies": {
     "express": "^4.18.2",
@@ -18,6 +23,7 @@
   },
   "devDependencies": {
     "concurrently": "^9.2.0",
-    "wait-on": "^8.0.3"
+    "wait-on": "^8.0.3",
+    "standard-version": "^9.5.0"
   }
 }
