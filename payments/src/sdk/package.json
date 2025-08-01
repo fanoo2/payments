@@ -5,7 +5,7 @@
   "author": "OpenAPI-Generator",
   "repository": {
     "type": "git",
-    "url": "https://github.com/GIT_USER_ID/GIT_REPO_ID.git"
+    "url": "https://github.com/fanoo2/payments.git"
   },
   "type": "module",
   "main": "dist/index.js",
@@ -15,7 +15,8 @@
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "prepare": "npm run build"
+    "prepare": "npm run build",
+    "prepublishOnly": "npm run build"
   },
   "devDependencies": {
     "typescript": "^4.0 || ^5.0"
@@ -23,5 +24,15 @@
   "dependencies": {
     "typescript": "5.7.2",
     "zod": "^3.22.4"
-  }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "payments",
+    "api",
+    "client",
+    "fanno",
+    "sdk"
+  ]
 }
