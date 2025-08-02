@@ -42,7 +42,7 @@ app.post('/payments/create-session', (req, res) => {
 });
 
 app.post('/payments/webhook', (req, res) => {
-  const { id, type, data } = req.body;
+  const { type, data } = req.body;
   
   if (type === 'checkout.session.completed') {
     const sessionId = data?.object?.id;
@@ -52,7 +52,7 @@ app.post('/payments/webhook', (req, res) => {
       session.status = 'complete';
       sessions.set(sessionId, session);
       
-      console.log(`Payment session ${sessionId} completed`);
+      console.log(`Payment session ${sessionId} completed`); // eslint-disable-line no-console
     }
   }
   
@@ -61,6 +61,6 @@ app.post('/payments/webhook', (req, res) => {
 
 // Start server
 app.listen(PORT, '0.0.0.0', () => {
-  console.log(`🚀 Payments service running on port ${PORT}`);
-  console.log(`Health check: http://localhost:${PORT}/health`);
+  console.log(`🚀 Payments service running on port ${PORT}`); // eslint-disable-line no-console
+  console.log(`Health check: http://localhost:${PORT}/health`); // eslint-disable-line no-console
 });

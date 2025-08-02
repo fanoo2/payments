@@ -4,26 +4,31 @@ FROM node:18-alpine
 # Set working directory
 WORKDIR /app
 
-# Copy package files
-COPY package*.json ./
-COPY payments/src/sdk/package*.json ./payments/src/sdk/
-
 # Install curl for health check
 RUN apk add --no-cache curl
+
+# Copy package files for dependency installation
+COPY package*.json ./
+COPY payments/src/sdk/package*.json ./payments/src/sdk/
 
 # Install dependencies
 RUN npm ci --only=production
 
-# Build SDK (skip if pre-built)
-COPY payments/src/sdk ./payments/src/sdk
+# Copy and build SDK first
+COPY payments/src/sdk/src ./payments/src/sdk/src
+COPY payments/src/sdk/tsconfig.json ./payments/src/sdk/
 RUN cd payments/src/sdk && npm ci && npm run build
 
-# Copy application code
-COPY . .
+# Copy only the application code needed for runtime
+COPY payments/index.js ./payments/
+COPY index.js ./
 
 # Create non-root user
 RUN addgroup -g 1001 -S nodejs
 RUN adduser -S nextjs -u 1001
+
+# Change ownership of app directory
+RUN chown -R nextjs:nodejs /app
 USER nextjs
 
 # Expose port
