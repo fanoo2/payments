@@ -42,12 +42,26 @@ spec:
             - name: {{ .name }}
               value: {{ .value | quote }}
             {{- end }}
-            {{- if .Values.config.stripe.secretKey }}
+            {{- range .Values.extraEnvVars }}
+            - name: {{ .name }}
+              {{- if .value }}
+              value: {{ .value | quote }}
+              {{- else if .valueFrom }}
+              valueFrom:
+                {{- toYaml .valueFrom | nindent 16 }}
+              {{- end }}
+            {{- end }}
+            {{- if or .Values.config.stripe.secretKey .Values.config.stripe.existingSecret }}
             - name: STRIPE_SECRET_KEY
               valueFrom:
                 secretKeyRef:
+                  {{- if .Values.config.stripe.existingSecret }}
+                  name: {{ .Values.config.stripe.existingSecret }}
+                  key: {{ .Values.config.stripe.existingSecretKey | default "stripe-secret-key" }}
+                  {{- else }}
                   name: {{ include "fanno-payments.fullname" . }}-secrets
                   key: stripe-secret-key
+                  {{- end }}
             {{- end }}
             {{- if .Values.config.orchestrator.url }}
             - name: ORCHESTRATOR_URL
