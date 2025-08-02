@@ -1,0 +1,16 @@
+# Ignore unnecessary files in Helm package
+.git/
+.gitignore
+.DS_Store
+.vscode/
+.idea/
+*.tmp
+.env*
+node_modules/
+dist/
+coverage/
+tests/
+*.test.js
+*.spec.js
+README.md
+CHANGELOG.md

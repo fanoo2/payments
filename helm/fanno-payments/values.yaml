@@ -88,6 +88,30 @@ readinessProbe:
 # Config for external services
 config:
   stripe:
+    # Option 1: Provide secret key directly (not recommended for production)
     secretKey: ""
+    # Option 2: Use existing Kubernetes secret (recommended)
+    existingSecret: ""
+    existingSecretKey: "stripe-secret-key"
   orchestrator:
     url: ""
+
+# Additional environment variables
+extraEnvVars: []
+#  - name: CUSTOM_VAR
+#    value: "custom-value"
+#  - name: SECRET_VAR
+#    valueFrom:
+#      secretKeyRef:
+#        name: my-secret
+#        key: secret-key
+
+# External secrets (if using external-secrets operator)
+externalSecrets:
+  enabled: false
+  secretStore: ""
+  data: []
+  #  - secretKey: stripe-secret-key
+  #    remoteRef:
+  #      key: stripe-secret
+  #      property: secret_key
