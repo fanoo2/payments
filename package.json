@@ -1,8 +1,13 @@
 {
   "name": "fanno-payments-workspace",
-  "version": "1.0.3",
+  "version": "1.0.0",
   "description": "Fanno Payments API workspace",
   "main": "index.js",
+  "type": "commonjs",
+  "exports": {
+    ".": "./index.js",
+    "./payments": "./payments/index.js"
+  },
   "workspaces": [
     "packages/*",
     "payments/src/sdk"
@@ -15,6 +20,7 @@
     "dev:service": "npm run build && npm run serve",
     "test": "jest",
     "test:watch": "jest --watch",
+    "test:smoke": "node tests/smoke/smoke-test.js",
     "lint": "eslint payments/index.js tests/**/*.js --fix",
     "release": "standard-version",
     "release:minor": "standard-version --release-as minor",
@@ -23,20 +29,21 @@
     "postversion": "git push --follow-tags origin main"
   },
   "dependencies": {
-    "express": "^4.18.2",
-    "stripe": "^12.0.0",
     "body-parser": "^1.20.2",
-    "node-fetch": "^2.7.0"
+    "express": "^4.18.2",
+    "node-fetch": "^2.7.0",
+    "stripe": "^12.0.0"
   },
   "devDependencies": {
-    "concurrently": "^9.2.0",
-    "wait-on": "^8.0.3",
-    "standard-version": "^9.5.0",
-    "jest": "^29.7.0",
-    "supertest": "^6.3.3",
-    "eslint": "^8.55.0",
     "@types/jest": "^29.5.8",
+    "@typescript-eslint/eslint-plugin": "^6.13.0",
     "@typescript-eslint/parser": "^6.13.0",
-    "@typescript-eslint/eslint-plugin": "^6.13.0"
+    "concurrently": "^9.2.0",
+    "eslint": "^8.55.0",
+    "jest": "^29.7.0",
+    "standard-version": "^9.5.0",
+    "supertest": "^6.3.3",
+    "ts-jest": "^29.4.1",
+    "wait-on": "^8.0.3"
   }
 }

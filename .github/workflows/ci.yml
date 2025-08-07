@@ -36,6 +36,9 @@ jobs:
       - name: Run tests
         run: npm test
 
+      - name: Run smoke tests
+        run: npm run test:smoke
+
       - name: Start service for health check
         run: npm run serve &
 
